@@ -1,39 +1,35 @@
-import React, { useState } from 'react';
-import { Container, Title, Button } from './App.styled';
+import React from 'react';
+import Profile from './Profile'; 
+import Statistics from './Statistics';
+import FriendList from './FriendList';
+import TransactionHistory from './TransactionsHistory';
+import user from '../json/user.json';
+import data from '../json/data.json';
+import friends from '../json/friends.json';
+import transactions from '../json/transactions.json';
+import { AppContainer, ComponentContainer } from './App.styled';
 
-const App = () => {
-  // Definir el estado para las opiniones recogidas
-  const [feedback, setFeedback] = useState({
-    good: 0,
-    neutral: 0,
-    bad: 0
-  });
-
-  // Función para manejar la retroalimentación
-  const handleFeedback = (type) => {
-    setFeedback(prevFeedback => ({
-      ...prevFeedback,
-      [type]: prevFeedback[type] + 1
-    }));
-  };
-
+export const App = () => {
   return (
-    <Container>
-      <Title>Por Favor deja tu feedback</Title>
-      <div>
-        <Button onClick={() => handleFeedback('good')}>Buena</Button>
-        <Button onClick={() => handleFeedback('neutral')}>Neutra</Button>
-        <Button onClick={() => handleFeedback('bad')}>Mala</Button>
-      </div>
-      <div>
-      <Title>Estadisticas</Title>
-        <p>Opiniones buenas: {feedback.good}</p>
-        <p>Opiniones neutras: {feedback.neutral}</p>
-        <p>Opiniones malas: {feedback.bad}</p>
-      </div>
-      {/* Contenido adicional de la aplicación */}
-    </Container>
+    <AppContainer>
+      <ComponentContainer>
+        <Profile
+          username={user.username}
+          tag={user.tag}
+          location={user.location}
+          avatar={user.avatar}
+          stats={user.stats}
+        />
+      </ComponentContainer>
+      <ComponentContainer>
+        <Statistics title="Upload stats" stats={data} />
+      </ComponentContainer>
+      <ComponentContainer>
+        <FriendList friends={friends} />
+      </ComponentContainer>
+      <ComponentContainer>
+        <TransactionHistory items={transactions} />
+      </ComponentContainer>
+    </AppContainer>
   );
 };
-
-export default App;
